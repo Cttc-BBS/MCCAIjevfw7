@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
     <head>
-        <title>Video Autoplay</title>
+        <title>Video Autoplay with Sound</title>
     </head>
     <body style="margin: 0; overflow: hidden; display: flex; justify-content: center; align-items: center; height: 100vh; background: black;">
         <video
@@ -14,19 +14,17 @@
             playsinline
             style="max-width: 100%; max-height: 100%;"
         ></video>
+
         <script>
-            window.onload = () => {
+            document.addEventListener("click", function () {
                 let video = document.getElementById("vid");
-                video.muted = true;
-                video.play().then(() => {
-                    video.muted = false;
-                }).catch(error => {
-                    console.warn("Autoplay with sound was blocked:", error);
-                });
-            };
+                video.muted = false;
+                video.play();
+            }, { once: true }); // Ensures this only happens once
         </script>
     </body>
 </html>
+
 
 
 
