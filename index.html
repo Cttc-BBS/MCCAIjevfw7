@@ -7,6 +7,8 @@
     <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
 </head>
 <body style="margin: 0; overflow: hidden;">
+    <button id="unmuteButton" style="position: absolute; top: 10px; left: 10px; z-index: 10;">Unmute</button>
+
     <a-scene>
         <a-assets>
             <video 
@@ -17,7 +19,6 @@
                 autoplay 
                 playsinline 
                 webkit-playsinline 
-                muted 
                 crossorigin="anonymous">
             </video>
         </a-assets>
@@ -31,8 +32,17 @@
 
         <a-entity camera></a-entity>
     </a-scene>
+
+    <script>
+        document.getElementById("unmuteButton").addEventListener("click", function() {
+            let video = document.getElementById("vid");
+            video.muted = false;
+            video.play();
+        });
+    </script>
 </body>
 </html>
+
 
 
 
