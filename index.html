@@ -5,6 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>3D Video Player</title>
     <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script>
+             AFRAME.registerComponent('videohandler', {
+    init: function () {
+        var marker = this.el;
+        this.vid = document.querySelector("#vid");
+
+        marker.addEventListener('markerFound', function () {
+            this.vid.muted = false; // Unmute video
+            this.vid.play();
+        }.bind(this));
+
+        marker.addEventListener('markerLost', function () {
+            this.vid.pause();
+        }.bind(this));
+    },
+});
+        </script>
 </head>
 <body style="margin: 0; overflow: hidden;">
     <a-scene>
