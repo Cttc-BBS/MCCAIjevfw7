@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Video Player</title>
+    <title>Autoplay Video</title>
 </head>
 <body style="margin: 0; overflow: hidden; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: black;">
-    <video id="vid" width="100%" height="auto" controls autoplay playsinline>
+    <video id="vid" width="100%" height="auto" controls playsinline>
         <source src="assets/asset.mp4" type="video/mp4">
         Your browser does not support the video tag.
     </video>
@@ -14,17 +14,24 @@
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             var video = document.getElementById("vid");
-            
-            // Attempt to play the video with sound
-            function enableSound() {
-                video.muted = false;
-                video.play().catch(error => console.log("Autoplay with sound failed:", error));
-                document.removeEventListener("click", enableSound);
-            }
 
-            document.addEventListener("click", enableSound);
+            // Try to autoplay with sound
+            video.muted = false;
+            var playPromise = video.play();
+
+            if (playPromise !== undefined) {
+                playPromise.catch(() => {
+                    console.log("Autoplay blocked, requiring user interaction.");
+                    // Add click listener to enable playback
+                    document.addEventListener("click", function enablePlayback() {
+                        video.play();
+                        document.removeEventListener("click", enablePlayback);
+                    });
+                });
+            }
         });
     </script>
 </body>
 </html>
+
 
