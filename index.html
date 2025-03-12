@@ -2,6 +2,13 @@
 <html>
     <head>
         <title>Video Autoplay</title>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                var video = document.getElementById("vid");
+                video.muted = false;
+                video.play();
+            });
+        </script>
     </head>
     <body style="margin: 0; overflow: hidden; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: black;">
         <video 
@@ -10,7 +17,6 @@
             preload="auto" 
             loop 
             autoplay 
-            muted 
             playsinline 
             controls 
             style="max-width: 100%; height: auto;">
