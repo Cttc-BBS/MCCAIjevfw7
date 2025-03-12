@@ -1,55 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Autoplay with Sound</title>
-</head>
-<body style="margin: 0; overflow: hidden; display: flex; justify-content: center; align-items: center; height: 100vh; background: black;">
-    
-    <video id="vid"
-        src="assets/asset.mp4"
-        preload="auto"
-        loop
-        autoplay
-        muted
-        playsinline
-        style="max-width: 100%; max-height: 100%;"
-    ></video>
+<!doctype html>
+<html>
+    <head>
+        <title>Video Autoplay with Sound</title>
+    </head>
+    <body style="margin: 0; overflow: hidden; display: flex; justify-content: center; align-items: center; height: 100vh; background: black;">
+        <video
+            id="vid"
+            src="assets/asset.mp4"
+            preload="auto"
+            loop
+            autoplay
+            muted
+            playsinline
+            style="max-width: 100%; max-height: 100%;"
+        ></video>
 
-    <script>
-        async function enableAudio() {
-            let video = document.getElementById("vid");
-            let context = new (window.AudioContext || window.webkitAudioContext)();
-            let source = context.createMediaElementSource(video);
-            let gainNode = context.createGain();
+        <div id="popup" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center;">
+            <div style="background: white; padding: 20px; text-align: center; border-radius: 10px;">
+                <p>Do you want to play the video with sound?</p>
+                <button id="playWithSound" style="margin: 10px; padding: 10px; cursor: pointer;">Yes</button>
+                <button id="closePopup" style="margin: 10px; padding: 10px; cursor: pointer;">No</button>
+            </div>
+        </div>
 
-            source.connect(gainNode);
-            gainNode.connect(context.destination);
-
-            try {
-                await context.resume(); // Try resuming audio context
+        <script>
+            document.getElementById("playWithSound").addEventListener("click", function () {
+                let video = document.getElementById("vid");
                 video.muted = false;
-                await video.play(); // Attempt to play the video with sound
-                console.log("Video playing with sound.");
-            } catch (error) {
-                console.warn("Autoplay with sound blocked. Waiting for user interaction.");
+                video.play();
+                document.getElementById("popup").style.display = "none";
+            });
 
-                // Fallback: Request user interaction
-                document.body.addEventListener("click", () => {
-                    context.resume().then(() => {
-                        video.muted = false;
-                        video.play();
-                        console.log("Video unmuted on user interaction.");
-                    });
-                }, { once: true });
-            }
-        }
-
-        window.onload = enableAudio;
-    </script>
-
-</body>
+            document.getElementById("closePopup").addEventListener("click", function () {
+                document.getElementById("popup").style.display = "none";
+            });
+        </script>
+    </body>
 </html>
 
 
