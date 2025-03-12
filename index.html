@@ -14,10 +14,8 @@
                 src="assets/asset.mp4" 
                 preload="auto" 
                 loop 
-                autoplay 
                 playsinline 
                 webkit-playsinline 
-                muted 
                 crossorigin="anonymous">
             </video>
         </a-assets>
@@ -31,6 +29,22 @@
 
         <a-entity camera></a-entity>
     </a-scene>
+
+    <script>
+        // Play video with sound when page is interacted with
+        document.addEventListener("DOMContentLoaded", function () {
+            var video = document.getElementById("vid");
+
+            // Attempt to play the video with sound on user interaction
+            function enableSound() {
+                video.muted = false;
+                video.play().catch(error => console.log("Autoplay with sound failed:", error));
+                document.removeEventListener("click", enableSound);
+            }
+
+            document.addEventListener("click", enableSound);
+        });
+    </script>
 </body>
 </html>
 
