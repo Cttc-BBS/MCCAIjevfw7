@@ -16,11 +16,20 @@
         ></video>
 
         <script>
-            document.addEventListener("click", function () {
+            window.onload = function () {
                 let video = document.getElementById("vid");
+                let context = new (window.AudioContext || window.webkitAudioContext)();
+                let source = context.createMediaElementSource(video);
+                let gainNode = context.createGain();
+                
+                source.connect(gainNode);
+                gainNode.connect(context.destination);
                 video.muted = false;
-                video.play();
-            }, { once: true }); // Ensures this only happens once
+
+                context.resume().then(() => {
+                    video.play();
+                });
+            };
         </script>
     </body>
 </html>
