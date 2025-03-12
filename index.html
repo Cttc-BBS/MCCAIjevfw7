@@ -3,35 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Autoplay Video</title>
+    <title>3D Video Player</title>
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
 </head>
-<body style="margin: 0; overflow: hidden; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: black;">
-    <video id="vid" width="100%" height="auto" controls playsinline>
-        <source src="assets/asset.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
+<body style="margin: 0; overflow: hidden;">
+    <a-scene>
+        <a-assets>
+            <video 
+                id="vid" 
+                src="assets/asset.mp4" 
+                preload="auto" 
+                loop 
+                autoplay 
+                playsinline 
+                webkit-playsinline 
+                muted 
+                crossorigin="anonymous">
+            </video>
+        </a-assets>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var video = document.getElementById("vid");
+        <a-video 
+            src="#vid" 
+            scale="3 1.5 1" 
+            position="0 1 -3" 
+            rotation="0 0 0">
+        </a-video>
 
-            // Try to autoplay with sound
-            video.muted = false;
-            var playPromise = video.play();
-
-            if (playPromise !== undefined) {
-                playPromise.catch(() => {
-                    console.log("Autoplay blocked, requiring user interaction.");
-                    // Add click listener to enable playback
-                    document.addEventListener("click", function enablePlayback() {
-                        video.play();
-                        document.removeEventListener("click", enablePlayback);
-                    });
-                });
-            }
-        });
-    </script>
+        <a-entity camera></a-entity>
+    </a-scene>
 </body>
 </html>
+
 
 
